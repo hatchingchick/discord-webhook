@@ -30,7 +30,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 58vh;
+    height: 57vh;
   }
 
   .input-group {
@@ -126,7 +126,7 @@
       await sleep(startTime);
   
       const startMessageDisplay = document.createElement("div");
-      startMessageDisplay.style.color = "#0000FF";
+      startMessageDisplay.style.color = "#FF0000";
       startMessageDisplay.style.fontSize = "23px";
       startMessageDisplay.textContent = "送信が開始されました " + new Date().toLocaleString();
       document.body.appendChild(startMessageDisplay);
@@ -142,7 +142,7 @@
         }
       }
       const endMessageDisplay = document.createElement("div");
-      endMessageDisplay.style.color = "#00FF00";
+      endMessageDisplay.style.color = "#FF0000";
       endMessageDisplay.style.fontSize = "23px";
       endMessageDisplay.textContent = "送信が終了しました " + new Date().toLocaleString();
       document.body.appendChild(endMessageDisplay);
