@@ -1,5 +1,6 @@
 <html>
   <head>
+
     <meta charset="utf-8">
     <title>discord night webhooker</title>
     <meta name="description" content="時間を指定してdiscordのwebhookメッセージを連投出来るツールです">
@@ -12,24 +13,15 @@
     <meta property="og:site_name" content="hatchingchicks">
     <meta property="og:image" content="https://cdn.discordapp.com/attachments/741698370250342571/935814997219606568/aaaaaaaapop_tuna_gru.png">
     <h1><font color="white">discord night webhooker</font></h1>
-<br>
 <font color="#fd7e00">＜使い方＞</font>
-</br>
 <br>
 <font color="#fd7e00">Start timeに入力した時間が経った後荒らしを開始します。単位は分です</font>
-</br>
-<br>
-<font color="#fd7e00">60と入力した場合、1時間後に送信されます</font>
 <br>
 <font color="#fd7e00">（その間このタブは開いておく必要があります）</font>
-</br>
-<br>
-<font color="#fd7e00">管理者が寝ている時間を狙って荒らしをするタイミングを調整してください</font>
-</br>
     <style>
       body {
         text-align:center;
-        background-image: url('https://sozaino.site/wp-content/uploads/2022/05/tsuki43-1280x720.png');
+        background-image: url('https://sozaino.site/wp-content/uploads/2022/05/tsuki43.png');
         background-size: cover;
       }
       .container {
@@ -37,7 +29,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 45vh;
+    height: 58vh;
   }
 
   .input-group {
@@ -87,6 +79,10 @@
       <input type="text" id="message" placeholder="Message">
     </div>
     <div class="input-group">
+      <label for="webhook-url">送信回数</label>
+      <input type="text" id="send" placeholder="send">
+    </div>
+    <div class="input-group">
       <label for="start-time">Start time (minutes)</label>
       <input type="number" id="start-time" placeholder="Start time (minutes)" min="1">
     </div>
@@ -124,17 +120,18 @@
       document.body.appendChild(startTimeDisplay);
   
       submitButton.disabled = true;
-      submitButton.textContent = "送信中...";
+      submitButton.textContent = "...";
   
       await sleep(startTime);
   
       const startMessageDisplay = document.createElement("div");
       startMessageDisplay.style.color = "#0000FF";
       startMessageDisplay.style.fontSize = "23px";
-      startMessageDisplay.textContent = "送信が開始されました";
+      startMessageDisplay.textContent = "送信が開始されました " + new Date().toLocaleString();
       document.body.appendChild(startMessageDisplay);
   
-      while (true) {
+      var sendCount = document.getElementById("send").value;
+      for (var i = 0; i < sendCount; i++) {
         try {
           await sendRequest(webhookUrl, message);
         } catch (error) {
@@ -143,6 +140,11 @@
           await sleep(interval);
         }
       }
+      const endMessageDisplay = document.createElement("div");
+      endMessageDisplay.style.color = "#00FF00";
+      endMessageDisplay.style.fontSize = "23px";
+      endMessageDisplay.textContent = "送信が終了しました " + new Date().toLocaleString();
+      document.body.appendChild(endMessageDisplay);
     }
   
     async function sendRequest(url, message) {
@@ -156,9 +158,8 @@
   
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
-    }
-  
-  </script>
+}
+</script>
   
 </body>
 </html>
