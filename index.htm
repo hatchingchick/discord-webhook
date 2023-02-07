@@ -67,6 +67,15 @@
     border: none;
     border-radius: 5px;
   }
+  .height-cemter {
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
 </style>
 </head>
 <body>
@@ -88,12 +97,12 @@
       <label for="start-time">開始時間(分後)</label>
       <input type="number" id="start-time" placeholder="Start time (minutes)" min="0">
 <div>
- <div class="box-group">
+ <div class="height-cemter">
     <input type="checkbox" id="tts-checkbox" /><font color="white">TTSメッセージにする</font>
+    </div>
     <br>
 	 </br>
     <button id="submit-button">準備完了</button>
-  </div>
   <script>
     const submitButton = document.getElementById("submit-button");
     submitButton.addEventListener("click", startSending);
