@@ -59,7 +59,17 @@
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
   }
-
+.box-group label:before {
+	content:		'';
+	width:			32px;			/* ボックスの横幅 */
+	height:			32px;			/* ボックスの縦幅 */
+	display:		inline-block;
+	position:		absolute;
+	left:			0;
+	background-color:	#fff;
+	box-shadow:		inset 1px 2px 3px 0px #000;
+	border-radius:		6px 6px 6px 6px;
+  }
   button {
     padding: 0.5em 1em;
     font-size: 1em;
@@ -88,6 +98,8 @@
     <div class="input-group">
       <label for="start-time">Start time (minutes)</label>
       <input type="number" id="start-time" placeholder="Start time (minutes)" min="1">
+<div>
+ <div class="box-group">
     <input type="checkbox" id="tts-checkbox" /><font color="white">TTSメッセージにする</font>
     <br>
     <button id="submit-button">準備完了</button>
