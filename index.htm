@@ -101,7 +101,7 @@
     async function startSending() {
       const webhookUrl = document.getElementById("webhook-url").value;
       const message = document.getElementById("message").value;
-      const interval = 2000;
+      const interval = 1000;
       const startTime = document.getElementById("start-time").value * 60 * 1000;
   
       if (!webhookUrl || !message) {
