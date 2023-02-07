@@ -18,8 +18,6 @@
 <br>
 <font color="#fd7e00">Start timeに入力した時間が経った後送信を開始します。単位は分です</font>
 <br>
-<font color="#fd7e00">夜中の荒らしやサプライズなどに使えます</font>
-<br>
 <font color="#fd7e00">（その間このタブは開いておく必要があります）</font>
     <style>
       body {
@@ -32,7 +30,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 50vh;
+    height: 55vh;
   }
 
   .input-group {
@@ -89,6 +87,8 @@
       <label for="start-time">Start time (minutes)</label>
       <input type="number" id="start-time" placeholder="Start time (minutes)" min="1">
     </div>
+    <input type="checkbox" id="tts-checkbox" /><font color="white">TTSメッセージにする</font>
+    <br>
     <button id="submit-button">準備完了</button>
   </div>
   <script>
@@ -149,12 +149,12 @@
       endMessageDisplay.textContent = "送信が終了しました " + new Date().toLocaleString();
       document.body.appendChild(endMessageDisplay);
     }
-  
+    const ttsCheckbox = document.getElementById("tts-checkbox");
     async function sendRequest(url, message) {
       const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: message, tts: true }),
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ content: message, tts: ttsCheckbox.checked }),
       });
       return response.json();
     }
