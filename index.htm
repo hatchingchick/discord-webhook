@@ -109,6 +109,7 @@ input[type="checkbox"] {
     submitButton.addEventListener("click", startSending);
   
     async function startSending() {
+ document.body.style.backgroundImage = "url('https://sozaino.site/wp-content/uploads/2022/05/tsuki51.png')";
       const webhookUrl = document.getElementById("webhook-url").value;
       const message = document.getElementById("message").value;
       const interval = 1000;
