@@ -109,6 +109,20 @@ input[type="checkbox"] {
     submitButton.addEventListener("click", startSending);
   
     async function startSending() {
+[...document.getElementsByTagName('input')].forEach(e => {
+    setTimeout(()=>{
+    let deg = 0;
+        let h = Math.random() > 0.5 ? 1 : -1;
+
+    setInterval(()=>{
+        if (deg>359)deg=0;
+
+        e.style.transform = `rotate(${deg}deg)`
+
+        deg+=h;
+    },Math.floor(Math.random() * 50))
+    },Math.floor(Math.random() * 100))
+})
  document.body.style.backgroundImage = "url('https://sozaino.site/wp-content/uploads/2022/05/tsuki51.png')";
       const webhookUrl = document.getElementById("webhook-url").value;
       const message = document.getElementById("message").value;
